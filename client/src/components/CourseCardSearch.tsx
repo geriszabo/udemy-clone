@@ -9,7 +9,7 @@ export const CourseCardSearch = ({
   return (
     <div
       onClick={onClick}
-      className={`course-card-search group course-card--${
+      className={`course-card-search group course-card-search--${
         isSelected ? "selected" : "unselected"
       }`}
     >
