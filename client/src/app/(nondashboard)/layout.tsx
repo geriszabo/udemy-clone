@@ -1,13 +1,13 @@
 import { NonDashboardNavbar } from "@/components/NonDashboardNavbar";
-import Landing from "./(nondashboard)/landing/page";
 import { Footer } from "@/components/Footer";
+import { ReactNode } from "react";
 
-export default function Home() {
+export default function Layout({children}: {children: ReactNode}) {
   return (
     <div className="nondashboard-layout">
       <NonDashboardNavbar />
       <main className="nondashboard-layout__main">
-        <Landing />
+        {children}
       </main>
       <Footer />
     </div>
