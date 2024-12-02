@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
 const Landing = () => {
   const currentImage = useCarousel({ totalImages: 3 });
   const router = useRouter()
-  const { data: courses, isLoading, isError } = useGetCoursesQuery({});
+  const { data: courses, isLoading } = useGetCoursesQuery({});
 
   if(isLoading) {
     return <LoadingSkeleton/>
