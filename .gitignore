@@ -16,7 +16,7 @@
 /coverage
 
 # next.js
-**/.next/
+client/.next/
 /out/
 
 # production
@@ -44,3 +44,9 @@ server/.env
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vscode/
+
+server/shared-local-instance.db
+server/dynamodb-local-metadata.json
+/shared-local-instance.db
