@@ -6,6 +6,7 @@ import { useGetCoursesQuery } from "@/state/api";
 import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { SelectedCourse } from "./SelectedCourse";
 
 const Search = () => {
   const searchParams = useSearchParams();
@@ -33,18 +34,23 @@ const Search = () => {
   }
 
   function handleCourseSelect(course: Course) {
-    setSelectedCourse(course)
-    router.push(`/search?id=${course.courseId}`)
+    setSelectedCourse(course);
+    router.push(`/search?id=${course.courseId}`);
   }
+
+  function handleEnrollNow(courseId: Course["courseId"]) {
+    router.push(`/checkout?step=1&id=${courseId}&showSignUp=false`);
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duratin: 0.5 }}
-    //   className="search"
+      //   className="search"
     >
       <h1 className="search__title">List of available courses</h1>
-      <h2 className="search__subitle">{courses && courses.length}</h2>
+      <h2 className="search__subitle">{courses?.length}</h2>
       <div className="search__content">
         <motion.div
           initial={{ y: 40, opacity: 0 }}
@@ -61,6 +67,19 @@ const Search = () => {
             />
           ))}
         </motion.div>
+        {selectedCourse && (
+           <motion.div
+           initial={{ y: 40, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ duration: 0.5, delay: 0.5 }}
+           className="search__selected-course"
+         >
+          <SelectedCourse
+          course={selectedCourse}
+            handleEnrollNow={handleEnrollNow}
+          />
+         </motion.div>
+        )}
       </div>
     </motion.div>
   );

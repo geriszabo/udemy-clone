@@ -46,6 +46,7 @@ server/.env
 next-env.d.ts
 
 .vscode/
+dynamoDB.local.rtfd
 
 server/shared-local-instance.db
 server/dynamodb-local-metadata.json
