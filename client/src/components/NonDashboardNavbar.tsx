@@ -1,14 +1,24 @@
+"use client";
+
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Bell, BookOpen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export const NonDashboardNavbar = () => {
+  const { user } = useUser();
+  const userRole = user?.publicMetadata?.userType as "student" | "teacher";
+  const userProfileUrl = `/${
+    userRole === "teacher" ? "teacher" : "user"
+  }/profile`;
+
   return (
     <nav className="nondashboard-navbar">
       <div className="nondashboard-navbar__container">
         <div className="nondashboard-navbar__search">
           <Link href="/" className="nondashboard-navbar__brand" scroll={false}>
-            EDROH
+           GERGÖ
           </Link>
           <div className="flex items-center gap-4">
             <div className="relative group">
@@ -32,7 +42,34 @@ export const NonDashboardNavbar = () => {
             <span className="nondashboard-navbar__notification-indicator"></span>
             <Bell className="nondashboard-navbar__notification-icon" />
           </button>
-          {/* sign in coming later */}
+          <SignedIn>
+            <UserButton
+              appearance={{
+                baseTheme: dark,
+                elements: {
+                  userButtonOuterIdentifier: "text-customgreys-dirtgrey",
+                  userButtonBox: "scale-90 sm:scale-100",
+                },
+              }}
+              showName={true}
+              userProfileMode="navigation"
+              userProfileUrl={userProfileUrl}
+            />
+          </SignedIn>
+          <SignedOut>
+            <Link
+              href="/signin"
+              className="nondashboard-navbar__auth-button--login"
+            >
+              Log in{" "}
+            </Link>
+            <Link
+              href="/signup"
+              className="nondashboard-navbar__auth-button--signup"
+            >
+              Sign up
+            </Link>
+          </SignedOut>
         </div>
       </div>
     </nav>
