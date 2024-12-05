@@ -33,7 +33,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
-interface FormFieldProps {
+export interface FormFieldProps {
   name: string;
   label: string;
   type?:

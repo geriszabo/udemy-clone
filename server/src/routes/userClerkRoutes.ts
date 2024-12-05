@@ -3,6 +3,6 @@ import {updateUser} from "../controllers/userClerkController"
 
 const router = express.Router()
 
-router.put("/:userID", updateUser)
+router.put("/:userId", updateUser)
 
 export default router
