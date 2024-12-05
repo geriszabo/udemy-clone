@@ -2,6 +2,7 @@
 
 import { AppSidebar } from "@/components/AppSidebar";
 import { Loading } from "@/components/Loading";
+import { Navbar } from "@/components/Navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
@@ -23,6 +24,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <div className="dashboard__content">
           {/* chapter goes here */}
           <div className={cn("dashboard_main")} style={{ height: "100vh" }}>
+            <Navbar isCoursePage={true} />
             <main className="dashboard__body">{children}</main>
           </div>
         </div>
