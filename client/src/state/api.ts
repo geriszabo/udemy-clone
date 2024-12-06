@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query";
 import { User } from "@clerk/nextjs/server";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Clerk } from "@clerk/clerk-js";
 import { toast } from "sonner";
 
 const customBaseQuery = async (
   args: string | FetchArgs,
   api: BaseQueryApi,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
@@ -20,6 +22,7 @@ const customBaseQuery = async (
   });
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = await baseQuery(args, api, extraOptions);
 
     if (result.error) {
@@ -44,7 +47,7 @@ const customBaseQuery = async (
     } else if (result.error?.status === 204 || result.meta?.response?.status) {
       return { data: null };
     }
-    return result; 
+    return result;
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
@@ -77,8 +80,23 @@ export const api = createApi({
       query: (id) => `courses/${id}`,
       providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
+    createStripePaymentIntent: build.mutation<
+      { clientSecret: string },
+      { amount: number }
+    >({
+      query: ({ amount }) => ({
+        url: `/transactions/stripe/payment-intent`,
+        method: "POST",
+        body: { amount },
+      }),
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
-export const { useUpdateUserMutation, useGetCoursesQuery, useGetCourseQuery } =
-  api;
+export const {
+  useUpdateUserMutation,
+  useGetCoursesQuery,
+  useGetCourseQuery,
+  useCreateStripePaymentIntentMutation,
+} = api;
