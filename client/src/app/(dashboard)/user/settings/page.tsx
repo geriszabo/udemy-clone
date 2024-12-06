@@ -1,5 +1,4 @@
 import { SharedNotificationSettings } from '@/components/SharedNotificationSettings'
-import React from 'react'
 
 const UserSettings = () => {
   return (
