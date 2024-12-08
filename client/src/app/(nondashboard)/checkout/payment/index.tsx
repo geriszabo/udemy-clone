@@ -11,22 +11,52 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { CoursePreview } from "@/components/CoursePreview";
 import { CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useCreateTransactionMutation } from "@/state/api";
+import { toast } from "sonner";
 
 export const PaymentPageContent = () => {
   const stripe = useStripe();
   const elements = useElements();
-  // const [createTransaction] = useCreateTransactionMutation()
+  const [createTransaction] = useCreateTransactionMutation();
   const { navigateToStep } = useCheckoutNavigation();
   const { course, courseId } = useCurrentCourse();
   const { user } = useUser();
   const { signOut } = useClerk();
   if (!course) return null;
 
-  function handleSubmit() {
-    return null;
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      toast.error("Stripe service is not available");
+      return;
+    }
+
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${process.env.NEXT_PUBLIC_STRIPE_REDIRECT_URL}?id=${courseId}`,
+      },
+      redirect: "if_required",
+    });
+
+    if (result.paymentIntent?.status === "succeeded") {
+      const transactionData: Partial<Transaction> = {
+        transactionId: result.paymentIntent.id,
+        userId: user?.id,
+        courseId: courseId,
+        paymentProvider: "stripe",
+        amount: course?.price || 0,
+      };
+
+      await createTransaction(transactionData);
+      navigateToStep(3);
+    }
   }
-  function handleSignOutAndNavigate() {
-    return null;
+
+  async function handleSignOutAndNavigate() {
+    await signOut();
+    navigateToStep(1);
   }
 
   return (
@@ -46,10 +76,12 @@ export const PaymentPageContent = () => {
             <div className="payment__content">
               <h1 className="payment__title">Checkout</h1>
               <p className="payment__subtitle">
-                Fill out the payment details below, complete your purchase
+                Fill out the payment details below to complete your purchase.
               </p>
+
               <div className="payment__method">
                 <h3 className="payment__method-title">Payment Method</h3>
+
                 <div className="payment__card-container">
                   <div className="payment__card-header">
                     <CreditCard size={24} />
@@ -76,9 +108,8 @@ export const PaymentPageContent = () => {
         </Button>
         <Button
           form="payment-form"
-          className="payment__submit"
-          variant="outline"
           type="submit"
+          className="payment__submit"
           disabled={!stripe || !elements}
         >
           Pay with Credit Card
