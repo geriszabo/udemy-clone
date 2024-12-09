@@ -467,7 +467,7 @@ input[type="color"] {
 }
 
 .billing__container {
-  @apply space-y-6 bg-customgreys-secondarybg;
+  @apply space-y-6;
 }
 
 .billing__title {
@@ -515,15 +515,15 @@ input[type="color"] {
 }
 
 .billing__table-row {
-  @apply border-none;
+  @apply border-none bg-customgreys-primarybg;
 }
 
 .billing__table-row:hover {
-  @apply bg-customgreys-primarybg;
+  @apply bg-customgreys-dirtyGrey;
 }
 
 .billing__table-body {
-  @apply bg-customgreys-primarybg min-h-[200px];
+  @apply bg-customgreys-darkGrey min-h-[200px];
 }
 
 /* User Courses Page */
