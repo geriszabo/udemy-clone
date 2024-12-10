@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         <AppSidebar />
         <div className="dashboard__content">
           {/* chapter goes here */}
-          <div className={cn("dashboard_main")} style={{ height: "100vh" }}>
+          <div className={cn("dashboard__main")} style={{ height: "100vh" }}>
             <Navbar isCoursePage={true} />
             <main className="dashboard__body">{children}</main>
           </div>
