@@ -21,6 +21,8 @@ import { ArrowLeft, Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { ChapterModal } from "./ChapterModal";
+import { SectionModal } from "./SectionModal";
 
 const CourseEditor = () => {
   const router = useRouter();
@@ -60,7 +62,7 @@ const CourseEditor = () => {
     try {
     
 
-      const formData = createCourseFormData(data);
+      const formData = createCourseFormData(data, sections);
 
       await updateCourse({
         courseId: id,
@@ -197,8 +199,8 @@ const CourseEditor = () => {
         </form>
       </Form>
 
-      {/* <ChapterModal />
-      <SectionModal /> */}
+      <ChapterModal />
+      <SectionModal />
     </div>
   );
 };
