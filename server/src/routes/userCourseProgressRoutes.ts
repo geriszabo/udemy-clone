@@ -5,6 +5,6 @@ const router = express.Router()
 
 router.get("/:userId/enrolled-courses", getUserEnrolledCourses)
 router.get("/:userId/courses/:courseId", getUserCourseProgress)
-router.post("/:userId/courses/:courseId", updateUserCourseProgress)
+router.put("/:userId/courses/:courseId", updateUserCourseProgress)
 
 export default router
